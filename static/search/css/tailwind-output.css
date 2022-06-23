@@ -556,6 +556,9 @@ video {
 .justify-center {
   justify-content: center;
 }
+.overflow-hidden {
+  overflow: hidden;
+}
 .rounded-lg {
   border-radius: 0.5rem;
 }
