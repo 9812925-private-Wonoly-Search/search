@@ -143,6 +143,7 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, '../static/')
 
 
+
 # HTTPS configuration
 # Enable this configuration when running a HTTPS server to avoid accidentally
 # serving CSRF and Session cookie when server over just HTTPS.
