@@ -1,5 +1,5 @@
 """
-ASGI config for starter project.
+ASGI config for the wonoly search engine project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.asgi import get_asgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'starter.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'search.settings')
 
 application = get_asgi_application()

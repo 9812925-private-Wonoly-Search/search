@@ -1,4 +1,4 @@
-# Django Starter
+# Wonoly Search Engine
 
 ## Setup
 

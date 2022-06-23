@@ -35,7 +35,7 @@ services:
 
   db:
     image: postgres:11
-    container_name: starter-pgsql
+    container_name: search-pgsql
     environment:
       POSTGRES_DB: ${DB_DATABASE}
       POSTGRES_USER: ${DB_USERNAME}
@@ -43,7 +43,7 @@ services:
     ports:
       - "54321:5432"
     volumes:
-      - starter-db-data:/var/lib/postgresql/data
+      - search-db-data:/var/lib/postgresql/data
 
 volumes:
-  starter-db-data:
+  search-db-data:
