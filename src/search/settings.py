@@ -141,6 +141,7 @@ USE_TZ = env.bool('APP_USE_TZ', default=True)
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, '../static/')
+STATICFILES_DIRS = ( os.path.join(STATIC_ROOT, 'search/'), )
 
 
 

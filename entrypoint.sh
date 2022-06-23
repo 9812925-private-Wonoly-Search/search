@@ -1,8 +1,12 @@
 #!/usr/bin/env sh
 
 # Publish static assets.
-python src/manage.py collectstatic --no-input
 
+cd jstoolchain
+npm i
+cd ..
+
+sh ./collect_static.sh
 
 # Auto migrate database.
 if [ "$APP_AUTO_MIGRATE" = "true" ]; then
