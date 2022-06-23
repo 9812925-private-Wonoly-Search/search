@@ -21,16 +21,9 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 #
-from django.shortcuts import render
-# from .scrapers import get_scrapers
 
-def home(request):
-    return render(request, 'web/home.html')
+from .template import Scraper
+from .google import Google
 
-def search(request):
-    # results = []
-    # for scraper in get_scrapers():
-    #     scraper.prepare()
-    #     results.append(scraper.search())
-
-    return results
+def get_scrapers():
+    return [Google()]

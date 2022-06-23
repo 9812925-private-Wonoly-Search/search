@@ -1,3 +1,4 @@
+
 #
 # The MIT License (MIT)
 #
@@ -21,16 +22,16 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 #
-from django.shortcuts import render
-# from .scrapers import get_scrapers
 
-def home(request):
-    return render(request, 'web/home.html')
+from abc import ABC, abstractmethod
+from typing import Dict, Any, Optional
 
-def search(request):
-    # results = []
-    # for scraper in get_scrapers():
-    #     scraper.prepare()
-    #     results.append(scraper.search())
+class Scraper(ABC):
 
-    return results
+    @abstractmethod
+    def prepare(self, *argv, **kwargv) -> None:
+        raise Exception("Scraper.prepare has not been overriden by it's child")
+
+    @abstractmethod
+    def scrape(self) -> Dict[str, Dict[str, Any]]:
+        return {}
