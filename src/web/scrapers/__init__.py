@@ -1,4 +1,3 @@
-
 #
 # The MIT License (MIT)
 #
@@ -23,14 +22,10 @@
 # THE SOFTWARE.
 #
 
+from typing import Dict, Any
+
 from .template import Scraper
+from .google import Google
 
-class Google(Scraper):
-    @abstractmethod
-    def prepare(self, *argv, **kwargv) -> None:
-        print("google start")
-
-    @abstractmethod
-    def scrape(self) -> Dict[str, Dict[str, Any]]:
-        print("google crawl")
-        return {}
+def get_scrapers():
+    return [Google]

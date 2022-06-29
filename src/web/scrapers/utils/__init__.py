@@ -1,4 +1,3 @@
-
 #
 # The MIT License (MIT)
 #
@@ -23,15 +22,4 @@
 # THE SOFTWARE.
 #
 
-from abc import ABC, abstractmethod
-from typing import Dict, Any, Optional
-
-class Scraper(ABC):
-
-    @abstractmethod
-    def prepare(self, *argv, **kwargv) -> None:
-        raise Exception("Scraper.prepare has not been overriden by it's child")
-
-    @abstractmethod
-    def scrape(self) -> Dict[str, Dict[str, Any]]:
-        return {}
+from . import google

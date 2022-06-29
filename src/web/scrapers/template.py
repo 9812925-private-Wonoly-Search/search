@@ -1,3 +1,4 @@
+
 #
 # The MIT License (MIT)
 #
@@ -21,11 +22,15 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 #
-from django.urls import path, re_path
 
-from . import views
+from abc import ABC, abstractmethod
+from typing import Dict, Any, Optional
 
-urlpatterns = [
-    path('search/', views.search, name='search'),
-    path('/', views.home, name='home'),
-]
+class Scraper(ABC):
+
+    def __init__(self, options: Dict[str, Any]):
+        pass
+
+    @abstractmethod
+    def search(self) -> Dict[str, Dict[str, Any]]:
+        return {}

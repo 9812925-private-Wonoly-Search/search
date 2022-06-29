@@ -21,16 +21,23 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 #
+from django.http import HttpResponse
 from django.shortcuts import render
-# from .scrapers import get_scrapers
+from . import scrapers
 
 def home(request):
     return render(request, 'web/home.html')
 
 def search(request):
-    # results = []
-    # for scraper in get_scrapers():
-    #     scraper.prepare()
-    #     results.append(scraper.search())
 
-    return results
+    results = []
+    options = dict(
+        query="",
+        start=0
+    )
+
+    for scraper in scrapers.get_scrapers():
+        instance = scraper(options)
+        results.append(instance.search())
+
+    return HttpResponse(results)

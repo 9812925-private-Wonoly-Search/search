@@ -22,8 +22,18 @@
 # THE SOFTWARE.
 #
 
-from .template import Scraper
-from .google import Google
+import re
 
-def get_scrapers():
-    return [Google()]
+GOOGLE_URL = "http://www.google.com"
+GOOGLE_VED = re.compile('/type="submit" data-ved="(.*?)"/')
+GOOGLE_USERAGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36"
+
+class Classes:
+    """A class for tracking obfuscated class names used in Google results that
+    are directly referenced in Whoogle's filtering code."""
+
+    title = "div.v7W49e div a h3"
+
+    @classmethod
+    def clean_google_page(self, html: str) -> str:
+        pass
