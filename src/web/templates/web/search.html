@@ -1,0 +1,165 @@
+<!--
+-- The MIT License (MIT)
+--
+-- Copyright (c) 2022 Wonoly
+--
+-- Permission is hereby granted, free of charge, to any person obtaining a copy
+-- of this software and associated documentation files (the "Software"), to deal
+-- in the Software without restriction, including without limitation the rights
+-- to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+-- copies of the Software, and to permit persons to whom the Software is
+-- furnished to do so, subject to the following conditions:
+--
+-- The above copyright notice and this permission notice shall be included in
+-- all copies or substantial portions of the Software.
+--
+-- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+-- IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+-- FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+-- AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+-- LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+-- OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+-- THE SOFTWARE.
+-->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="stylesheet" href="{% static "/css/tailwind-output.css" %}">
+
+        <title>Wonoly - Search with out being tracked</title>
+
+        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+        <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+        <style>
+            body {
+                background: #f9fafe;
+                height: 100vh;
+            }
+        </style>
+    </head>
+    <body class="relative h-screen max-w-full bg-page_bg">
+        <div class="bg-header_bg flex w-full pt-5 items-center">
+            <a class="absolute items-center flex" href="/">
+                <img style="transform: scale(1.2);" src='/favicon.ico' class="mr-5 w-10 h-10 ml-14">
+            </a>
+            <form data-aos="fade-up" method="GET" action="/search" class="bg-info_box_bg shadow-info_box border border-info_box_bg text-info_box_cl2 flex w-690 ml-40 item-center p-3 rounded-md min-w-input shadow hover:shadow-md relative ">
+                <input id="search__input" value="{{ options.query }}" type="text" name="q" class="bg-info_box_bg h-full w-full focus:outline-none" placeholder="Search with out being tracked">
+                <button class="focus:outline-none" type="submit">
+                    <svg style="opacity: .5;" class="cursor-pointer ml-1 w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                </button>
+            </form>
+        </div>
+        <div id="navigation__bar" class="overflow-hidden bg-header_bg w-full py-4">
+            <div class="pl-40 h-10 flex" style="width: 53rem;">
+                <div data-aos="fade-up" data-aos-delay="100" class="button__primary bg-info_box_bg shadow-info_box border border-info_box_bg text-info_box_cl2 rounded px-4 mr-2 cursor-pointer flex font-bold items-center justify-between">
+                    <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="currentColor" stroke="none" viewBox="0 0 24 24"><path d="M10 18a7.952 7.952 0 0 0 4.897-1.688l4.396 4.396 1.414-1.414-4.396-4.396A7.952 7.952 0 0 0 18 10c0-4.411-3.589-8-8-8s-8 3.589-8 8 3.589 8 8 8zm0-14c3.309 0 6 2.691 6 6s-2.691 6-6 6-6-2.691-6-6 2.691-6 6-6z"/><path d="M11.412 8.586c.379.38.588.882.588 1.414h2a3.977 3.977 0 0 0-1.174-2.828c-1.514-1.512-4.139-1.512-5.652 0l1.412 1.416c.76-.758 2.07-.756 2.826-.002z"/></svg>
+                    <span class="ml-1">
+                        All
+                    </span>
+                </div>
+                <div data-aos="fade-up" data-aos-delay="150" class="button__primary hover:shadow-info_box border border-info_box_bg text-info_box_cl2 rounded px-4 mx-2 cursor-pointer  flex font-bold items-center justify-between">
+                    <svg
+                        class="w-4 h-4"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        >
+                        <path
+                            fill-rule="evenodd"
+                            clip-rule="evenodd"
+                            d="M7 7C5.34315 7 4 8.34315 4 10C4 11.6569 5.34315 13 7 13C8.65685 13 10 11.6569 10 10C10 8.34315 8.65685 7 7 7ZM6 10C6 9.44772 6.44772 9 7 9C7.55228 9 8 9.44772 8 10C8 10.5523 7.55228 11 7 11C6.44772 11 6 10.5523 6 10Z"
+                            fill="currentColor"
+                        />
+                        <path
+                            fill-rule="evenodd"
+                            clip-rule="evenodd"
+                            d="M3 3C1.34315 3 0 4.34315 0 6V18C0 19.6569 1.34315 21 3 21H21C22.6569 21 24 19.6569 24 18V6C24 4.34315 22.6569 3 21 3H3ZM21 5H3C2.44772 5 2 5.44772 2 6V18C2 18.5523 2.44772 19 3 19H7.31374L14.1924 12.1214C15.364 10.9498 17.2635 10.9498 18.435 12.1214L22 15.6863V6C22 5.44772 21.5523 5 21 5ZM21 19H10.1422L15.6066 13.5356C15.9971 13.145 16.6303 13.145 17.0208 13.5356L21.907 18.4217C21.7479 18.7633 21.4016 19 21 19Z"
+                            fill="currentColor"
+                        />
+                    </svg>
+                    <span class="ml-1">
+                        Images
+                    </span>
+                </div>
+                <div data-aos="fade-up" data-aos-delay="200" class="button__primary hover:shadow-info_box border border-info_box_bg text-info_box_cl2 rounded px-4 mx-2 cursor-pointer  flex font-bold items-center justify-between">
+                    <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/>
+                    </svg>
+                    <span class="ml-1">
+                        Maps
+                    </span>
+                </div>
+                <div data-aos="fade-up" data-aos-delay="250" class="button__primary hover:shadow-info_box border border-info_box_bg text-info_box_cl2 rounded px-4 mx-2 cursor-pointer  flex font-bold items-center justify-between">
+                    <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
+                    </svg>
+                    <span class="ml-1">
+                        News
+                    </span>
+                </div>
+                <div data-aos="fade-up" data-aos-delay="300" class="button__primary ml-[auto] border hover:shadow-info_box border border-info_box_bg text-info_box_cl2 rounded px-4 cursor-pointer  flex font-bold items-center justify-between">
+                    <svg
+                        class="w-4 h-4"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        >
+                        <path
+                            d="M18 9C19.6569 9 21 7.65685 21 6C21 4.34315 19.6569 3 18 3C16.3431 3 15 4.34315 15 6C15 6.12549 15.0077 6.24919 15.0227 6.37063L8.08261 9.84066C7.54305 9.32015 6.80891 9 6 9C4.34315 9 3 10.3431 3 12C3 13.6569 4.34315 15 6 15C6.80891 15 7.54305 14.6798 8.08261 14.1593L15.0227 17.6294C15.0077 17.7508 15 17.8745 15 18C15 19.6569 16.3431 21 18 21C19.6569 21 21 19.6569 21 18C21 16.3431 19.6569 15 18 15C17.1911 15 16.457 15.3202 15.9174 15.8407L8.97733 12.3706C8.99229 12.2492 9 12.1255 9 12C9 11.8745 8.99229 11.7508 8.97733 11.6294L15.9174 8.15934C16.457 8.67985 17.1911 9 18 9Z"
+                            fill="currentColor"
+                        />
+                    </svg>
+                    <span class="ml-1">
+                        Share
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="w-full bg-white border-b bg-header_bg border-info_box_bg flex" id="instant__answer__wrapper">
+        </div>
+
+        <div class="flex w-full min-h-full">
+            <div class="ml-40 w-690 mt-10">
+                <!-- normal results -->
+                {% for scraper in  results %}
+                    {% for result in  scraper.results %}
+                        <div class="border border-page_bg bg-rs_bg normal_result rounded p-5 pt-1 mb-5">
+                            <div class="mt-4 relative">
+                                <div class="flex justify-between w-full relative">
+                                    <a href="{{ result.url }}" class="text-black font-bold flex items-center">
+                                        <img src="//icons.duckduckgo.com/ip3/{{ result.host }}.ico" class="mr-2 w-5 h-5">
+                                        <div class="w-full cursor-pointer text-rs_tl whitespace-nowrap overflow-hidden block no-underline hover:underline underline-offset-4">
+                                            {{ result.title|safe }}
+                                        </div>
+                                    </a>
+                                    <div>
+                                        <a href="/web-proxy?s={{ result.url }}" target="_blank" class="text-rs_tl absolute top-0 right-0 mx-2 float-right flex shadow-info_box bg-info_box_bg items-center justify-center border border-info_box_bg hover:border-black rounded px-4 py-2 mr-2 cursor-pointer flex font-bold text-rs_tl items-center justify-between">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-incognito" viewBox="0 0 16 16">
+                                                <path fill-rule="evenodd" d="m4.736 1.968-.892 3.269-.014.058C2.113 5.568 1 6.006 1 6.5 1 7.328 4.134 8 8 8s7-.672 7-1.5c0-.494-1.113-.932-2.83-1.205a1.032 1.032 0 0 0-.014-.058l-.892-3.27c-.146-.533-.698-.849-1.239-.734C9.411 1.363 8.62 1.5 8 1.5c-.62 0-1.411-.136-2.025-.267-.541-.115-1.093.2-1.239.735Zm.015 3.867a.25.25 0 0 1 .274-.224c.9.092 1.91.143 2.975.143a29.58 29.58 0 0 0 2.975-.143.25.25 0 0 1 .05.498c-.918.093-1.944.145-3.025.145s-2.107-.052-3.025-.145a.25.25 0 0 1-.224-.274ZM3.5 10h2a.5.5 0 0 1 .5.5v1a1.5 1.5 0 0 1-3 0v-1a.5.5 0 0 1 .5-.5Zm-1.5.5c0-.175.03-.344.085-.5H2a.5.5 0 0 1 0-1h3.5a1.5 1.5 0 0 1 1.488 1.312 3.5 3.5 0 0 1 2.024 0A1.5 1.5 0 0 1 10.5 9H14a.5.5 0 0 1 0 1h-.085c.055.156.085.325.085.5v1a2.5 2.5 0 0 1-5 0v-.14l-.21-.07a2.5 2.5 0 0 0-1.58 0l-.21.07v.14a2.5 2.5 0 0 1-5 0v-1Zm8.5-.5h2a.5.5 0 0 1 .5.5v1a1.5 1.5 0 0 1-3 0v-1a.5.5 0 0 1 .5-.5Z"/>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                </div>
+                                <a href="{{ result.url }}" class="text-rs_tl text-md opacity-50 font-semibold whitespace-nowrap overflow-hidden block">
+                                    {{ result.host|safe }}
+                                </a>
+                                <div class="result_desc cursor-pointer text-base font-semibold text-rs_ds" onclick="window.location.href='{{ result.url }}'" onauxclick="if (event.button == 1) window.open('{{ result.url }};', '_blank')">
+                                    {{ result.description|safe }}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+            </div>
+        </div>
+
+        <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+        <script>
+            AOS.init();
+        </script>
+    </body>
+</html>

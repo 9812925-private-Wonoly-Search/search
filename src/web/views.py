@@ -44,4 +44,4 @@ def search(request):
         instance = scraper(options)
         results.append(instance.search())
 
-    return JsonResponse(results[0])
+    return render(request, "web/search.html", dict(results=results, options=options))

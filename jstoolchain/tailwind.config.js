@@ -1,13 +1,4 @@
 /** @type {import('tailwindcss').Config} */
-function withOpacity(variableName) {
-  return ({opacityValue}) => {
-    if (opacityValue != undefined) {
-      `rgba(var(${variableName}), ${opacityValue})`
-    }
-    return `rgb(var(${variableName}))`
-  }
-}
-
 module.exports = {
   purge: {
     enabled: true,

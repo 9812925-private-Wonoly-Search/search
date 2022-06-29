@@ -1,3 +1,75 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.result_desc hr {
+    width: 100%;
+    height: 1px;
+    background: rgba(0, 0, 0, 0.2);
+    border: none;
+    outline: none;
+    margin-bottom: 0;
+    margin-top: 15px;
+    display: none;
+}
+.result_desc table {
+    text-align: left;
+    width: -webkit-fill-available;
+}
+
+.result_desc a:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.result_desc .fG8Fp.uo4vr /* reviews and extra info at the bottom */,
+.result_desc .IThcWe /* wikipedia table */ {
+    font-weight: bold;
+    margin-top: 0.2rem;
+}
+
+.result_desc .YgpRwf:first-child /* wikipedia table section */ {
+    margin-top: 5px;
+}
+.result_desc .YgpRwf /* wikipedia table section */ {
+    display: table-row;
+    vertical-align: top;
+    overflow: hidden;
+}
+.result_desc .YgpRwf div /* wikipedia table cell */ {
+    display: table-cell;
+    vertical-align: bottom;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.result_desc .YgpRwf div:nth-child(2) /* wikipedia table cell */ {
+    padding-left: 15px;
+}
+
+.normal_result:hover {
+    border-color: var(--rs-border);
+}
+
+.infobox__link__parent a {
+    color: var(--info-box-cl2);
+    text-decoration: underline;
+}
+
+@layer base {
+    [data-theme="dark"] {
+        --info-box-cl:     #fff;
+        --info-box-cl2:     #cccccc;
+
+        --info-box-bg:     #282828;
+        --info-box-shadow: 0 1px 3px rgb(0 0 0 / 50%);
+
+        --page-bg: #1c1c1c;
+
+        --rs-bg: var(--page-bg);
+        --rs-border: var(--info-box-bg);
+        --rs-tl: #eeeeee;
+        --rs-ds: #cccccc;
+
+        --header-bg: #161616;
+    }
+}
