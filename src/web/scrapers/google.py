@@ -24,7 +24,9 @@
 #
 
 from .template import Scraper
-from .utils.google import GOOGLE_URL, GOOGLE_VED, GOOGLE_USERAGENT
+from .utils.google import GOOGLE_URL, GOOGLE_VED, GOOGLE_USERAGENT, Classes
+
+from bs4 import BeautifulSoup
 
 from typing import Dict, Any
 import requests
@@ -60,39 +62,83 @@ class Google(Scraper):
         if matches is not None:
             self.ved = matches[1]
 
-        data = self.get_page_data(
-            f'{GOOGLE_URL}/search?source=hp&q='   +
-            urllib.parse.quote_plus(options.get("query")) +
-            '&ei=' + self.ei + '&aomd=1&btnK=Google+Search&ved='   +
-            self.ved + '&start=' + str(options.get("start", 0)))
+        data = self.get_page_data(self.prepare_search_url())
 
-        self.html_result = self.clean_google(data)
+        self.html_result = Classes.clean_google_page(data)
+
+    def prepare_search_url(self):
+        return f"{GOOGLE_URL}/search?source=hp&q={urllib.parse.quote_plus(self.options.get('query'))}&ei={self.ei}&aomd=1&btnK=Google+Search&ved={self.ved}&start={str(self.options.get('start', 0))}"
 
     def get_page_data(self, url: str) -> str:
         return requests.get(url, verify=False, timeout=10, headers=self.headers).text
 
-    def clean_google(self, data):
-        return (data
-            # Removes classes we don't need:
-            .replace("N6jJud MUxGbd lyLwlc", "")
-            .replace("YjtGef ExmHv MUxGbd", "")
-            .replace("MUxGbd lyLwlc aLF0Z", "")
-
-            # Transforms all possible variations of some classes' name into a
-            # fixed string so it's easier to get consistent results:
-            # Descriptions: -> MUxGbd yDYNvb
-            .replace("yDYNvb lEBKkf", "yDYNvb")
-            .replace("VwiC3b MUxGbd yDYNvb", "MUxGbd yDYNvb")
-
-            # Urls: -> C8nzq BmP5tf
-            .replace("cz3goc BmP5tf", "C8nzq BmP5tf")
-
-            # Titles: -> yUTMj MBeuO ynAwRc gsrt PpBGzd YcUVQe
-            .replace("yUTMj MBeuO ynAwRc PpBGzd YcUVQe", 'yUTMj MBeuO ynAwRc gsrt PpBGzd YcUVQe')
-            .replace("oewGkc LeUQr", 'PpBGzd YcUVQe')
-            .replace("q8U8x MBeuO", 'yUTMj MBeuO')
-            .replace("ynAwRc PpBGzd", 'ynAwRc gsrt PpBGzd'))
-
     def search(self) -> Dict[str, Dict[str, Any]]:
-        print("google crawl")
-        return {}
+        soup = BeautifulSoup(self.html_result, 'html.parser')
+        results = self._get_results(soup)
+        return dict(
+            results = results,
+        )
+
+    def _get_results(self, soup: BeautifulSoup) -> dict:
+        results      = []
+
+        urls         = []
+        titles       = []
+        descriptions = []
+
+        _titles = soup.select(Classes.title)
+        for title in _titles:
+            if title.style != "-webkit-line-clamp:2":
+                titles.append(title.getText())
+
+                url = title.parent
+                urls.append(url.get("href"))
+
+                _descriptions = title.parent
+                for i in range(3):
+                    _descriptions = _descriptions.parent
+
+                _descriptions = _descriptions.select(Classes.description)
+
+                description_content = ""
+                for description in _descriptions:
+                    description_content += str(description)
+
+                descriptions.append(description_content)
+
+        urls_len = len(urls)
+        titles_len = len(titles)
+        descriptions_len = len(descriptions)
+
+        if ((titles_len < urls_len and titles_len < descriptions_len)
+            or (urls_len > titles_len)):
+            del urls[0]
+
+        urls_len = len(urls)
+        inacurate = descriptions_len > len(urls[1:])
+
+        index = 0
+        for url in urls:
+            if url == "youtube.com" and inacurate and urls_len > 1:
+                del url[index]
+                del titles[index]
+
+                index -= 1
+
+            index += 1
+
+        for i in range(len(titles)):
+            parsed_url = urllib.parse.urlparse(urls[i])
+
+            try:
+                results.append(dict(
+                    title = titles[i],
+                    description = descriptions[i],
+                    url = urls[i],
+                    host = parsed_url.netloc,
+                ))
+            except IndexError:
+                pass
+
+        return results
+

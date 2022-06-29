@@ -21,8 +21,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 #
-from django.http import HttpResponse
-from django.shortcuts import render
+from django.http import HttpResponse, JsonResponse
+from django.shortcuts import render, redirect
 from . import scrapers
 
 def home(request):
@@ -30,9 +30,13 @@ def home(request):
 
 def search(request):
 
+    query = request.GET.get('q', '')
+    if query.strip() == "":
+        return redirect("/")
+
     results = []
     options = dict(
-        query="",
+        query=query,
         start=0
     )
 
@@ -40,4 +44,4 @@ def search(request):
         instance = scraper(options)
         results.append(instance.search())
 
-    return HttpResponse(results)
+    return JsonResponse(results[0])

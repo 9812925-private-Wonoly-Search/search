@@ -33,7 +33,27 @@ class Classes:
     are directly referenced in Whoogle's filtering code."""
 
     title = "div.v7W49e div a h3"
+    description = "div.lyLwlc"
 
-    @classmethod
-    def clean_google_page(self, html: str) -> str:
-        pass
+    @staticmethod
+    def clean_google_page(html: str) -> str:
+        return (html
+            # Removes classes we don't need:
+            .replace("N6jJud MUxGbd lyLwlc", "")
+            .replace("YjtGef ExmHv MUxGbd", "")
+            .replace("MUxGbd lyLwlc aLF0Z", "")
+
+            # Transforms all possible variations of some classes' name into a
+            # fixed string so it's easier to get consistent results:
+            # Descriptions: -> MUxGbd yDYNvb
+            .replace("yDYNvb lEBKkf", "yDYNvb")
+            .replace("VwiC3b MUxGbd yDYNvb", "MUxGbd yDYNvb")
+
+            # Urls: -> C8nzq BmP5tf
+            .replace("cz3goc BmP5tf", "C8nzq BmP5tf")
+
+            # Titles: -> yUTMj MBeuO ynAwRc gsrt PpBGzd YcUVQe
+            .replace("yUTMj MBeuO ynAwRc PpBGzd YcUVQe", 'yUTMj MBeuO ynAwRc gsrt PpBGzd YcUVQe')
+            .replace("oewGkc LeUQr", 'PpBGzd YcUVQe')
+            .replace("q8U8x MBeuO", 'yUTMj MBeuO')
+            .replace("ynAwRc PpBGzd", 'ynAwRc gsrt PpBGzd'))
