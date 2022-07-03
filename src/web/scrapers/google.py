@@ -75,9 +75,17 @@ class Google(Scraper):
     def search(self) -> Dict[str, Dict[str, Any]]:
         soup = BeautifulSoup(self.html_result, 'html.parser')
         results = self._get_results(soup)
+        dym = self._get_dym(soup)
         return dict(
+            dym = dym,
             results = results,
         )
+
+    def _get_dym(self, soup: BeautifulSoup) -> dict:
+        did_you_mean = soup.select(Classes.did_you_mean)
+
+        if len(did_you_mean):
+            return dict( text=did_you_mean[0].getText(), html=str(did_you_mean[0]) )
 
     def _get_results(self, soup: BeautifulSoup) -> dict:
         results      = []

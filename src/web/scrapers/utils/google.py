@@ -35,6 +35,8 @@ class Classes:
     title = "div.v7W49e div a h3"
     description = "div.lyLwlc"
 
+    did_you_mean = "a.gL9Hy"
+
     @staticmethod
     def clean_google_page(html: str) -> str:
         return (html
