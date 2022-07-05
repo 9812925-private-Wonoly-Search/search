@@ -35,7 +35,16 @@ class Classes:
     title = "div.v7W49e div a h3"
     description = "div.lyLwlc"
 
+    lyrics = 'div.ujudUb'
     did_you_mean = "a.gL9Hy"
+
+    kno_panel = dict(
+        url = 'div[class="kno-rdesc"] span a',
+        type = 'div.SPZz6b div span',
+        metadata = 'div.rVusze',
+        title = ['div.BkwXh div', 'div.SPZz6b h2 span'],
+        description = 'div[class="kno-rdesc"] span',
+    )
 
     @staticmethod
     def clean_google_page(html: str) -> str:

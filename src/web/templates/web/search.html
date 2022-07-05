@@ -159,6 +159,14 @@
                     </div>
                 {% endfor %}
             </div>
+            <div>
+                {% if results.lyrics != "" %}
+                    <div class="button__primary ml-10 mt-10 h-min mb-5 w-500 border p-5 pb-0 rounded shadow-info_box text-info_box_cl border border-info_box_bg bg-info_box_bg">
+                        <div class="font-bold text-xl mb-1 pb-2">Lyrics</div>
+                        <div class="text-info_box_cl2">{{ results.lyrics|safe }}</div>
+                    </div>
+                {% endif %}
+            </div>
         </div>
 
         <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
