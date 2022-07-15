@@ -78,7 +78,60 @@ class Google(Scraper):
             dym = self._get_dym(soup),
             results = self._get_results(soup),
             lyrics = self._get_lyrics(soup),
+            kno = self._get_kno(soup),
         )
+
+    def _get_kno(self, soup: BeautifulSoup) -> str:
+        url = '#'
+        type = 'N/A'
+        title = 'N/A'
+        metadata = []
+        url_title = 'N/A'
+        description = ''
+
+        for title_cls in Classes.kno_panel["title"]:
+            if title == "N/A":
+                for tlt in soup.select(title_cls):
+                    title = tlt.getText()
+
+        for desc in soup.select(Classes.kno_panel["description"]):
+            links = desc.select("a")
+            if len(links) > 0: break
+
+            description += desc.getText()
+
+        ty = soup.select(Classes.kno_panel["type"])
+        if len(ty) > 0: type = ty[0].getText()
+
+        _url = soup.select(Classes.kno_panel["url"])
+        if len(_url) > 0:
+            print(_url[0].parent)
+            url = _url[0].parent.get("href")
+            url_title = _url[0].getText()
+
+        mtd = soup.select(Classes.kno_panel["metadata"])
+        for data in mtd:
+            print(data.children)
+            key = next(data.children)
+            value = next(x for i, x in enumerate(data.children) if i > 0)
+
+            metadata.append({
+                "key": key.getText(),
+                "value": str(value)
+            })
+
+        if (((url != "#") and url_title != "N/A") or title != "N/A" or description != "N/A" or len(metadata) > 0):
+            return {
+                "url": url,
+                "title": title,
+                "description": description,
+                "url_title": url_title,
+                "metadata": metadata,
+                "type": type
+            }
+
+        return None
+
 
     def _get_lyrics(self, soup: BeautifulSoup) -> str:
         lyrics = ""
@@ -86,6 +139,7 @@ class Google(Scraper):
             lyrics += section.getText() + "<br/><br/>"
 
         return lyrics
+
 
     def _get_dym(self, soup: BeautifulSoup) -> dict:
         did_you_mean = soup.select(Classes.did_you_mean)

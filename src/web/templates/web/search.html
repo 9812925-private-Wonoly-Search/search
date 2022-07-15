@@ -160,6 +160,43 @@
                 {% endfor %}
             </div>
             <div>
+                {% if results.kno is not None %}
+                    <div style="font-size: 100%" class="ml-10 mt-10 h-min mb-5 w-500 shadow-info_box text-info_box_cl border border-info_box_bg bg-info_box_bg p-5 rounded">
+                        {% if results.kno.tittle != "N/A" %}
+
+                            <div class="font-semibold text-xl leading-4">{{ results.kno.title }}</div>
+                            {% if results.kno.type != "N/A" %}
+                                {% if results.kno.type|length <= 10 %}
+                                    <span class="text-sm text-info_box_cl2">{{ results.kno.type }}</span>
+                                {% endif %}
+                            {% endif %}
+                        {% else %}
+                            <div class="font-semibold text-xl">About</div>
+                        {% endif %}
+                        {% if results.kno.type|length > 10 %}
+                            <span class="text-sm text-info_box_cl2">{{ results.kno.type }}</span>
+                        {% endif %}
+
+                        {% if results.kno.description != "" %}
+                            <div class="pt-2 text-info_box_cl2">
+                                {{ results.kno.description|safe }} -
+                                <a class="font-bold" href="{{ results.kno.url }}">{{ results.kno.url_title }}</a>
+                            </div>
+                        {% endif %}
+
+                        {% if results.kno.metadata|length %}
+                            <div class="mt-2 text-info_box_cl2">
+                                {% for metadata in results.kno.metadata %}
+                                    <p class="infobox__link__parent">
+                                        <span class="font-semibold text-info_box_cl">{{ metadata.key }}</span>
+                                            {{ metadata.value|safe }}
+                                    </p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+
+                    </div>
+                {% endif %}
                 {% if results.lyrics != "" %}
                     <div class="button__primary ml-10 mt-10 h-min mb-5 w-500 border p-5 pb-0 rounded shadow-info_box text-info_box_cl border border-info_box_bg bg-info_box_bg">
                         <div class="font-bold text-xl mb-1 pb-2">Lyrics</div>
