@@ -4,6 +4,7 @@ module.exports = {
         enabled: true,
         content: ['../src/web/templates/web/**/*.html'],
     },
+    mode: 'jit',
     darkMode: "class", // or 'media' or 'class'
     theme: {
         extend: {

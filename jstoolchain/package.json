@@ -1,8 +1,9 @@
 {
   "scripts": {
-    "build": "postcss css/tailwind.css -o ../static/search/css/tailwind-output.css"
+    "build": "postcss css/tailwind.css -o ../static/search/css/tailwind-output.css --minify"
   },
   "dependencies": {
+    "@tailwindcss/jit": "^0.1.18",
     "autoprefixer": "^10.4.7",
     "postcss-cli": "^9.1.0",
     "tailwindcss": "^3.1.4"

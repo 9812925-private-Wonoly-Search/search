@@ -81,13 +81,13 @@ class Google(Scraper):
             kno = self._get_kno(soup),
         )
 
-    def _get_kno(self, soup: BeautifulSoup) -> str:
+    def _get_kno(self, soup: BeautifulSoup) -> str or None:
         url = '#'
         type = 'N/A'
         title = 'N/A'
         metadata = []
         url_title = 'N/A'
-        description = ''
+        description = 'N/A'
 
         for title_cls in Classes.kno_panel["title"]:
             if title == "N/A":
@@ -120,7 +120,11 @@ class Google(Scraper):
                 "value": str(value)
             })
 
-        if (((url != "#") and url_title != "N/A") or title != "N/A" or description != "N/A" or len(metadata) > 0):
+        if (url != "#" or title != "N/A" or description != "N/A" or len(metadata) > 0):
+            print(url)
+            print(title)
+            print(description)
+            print(metadata)
             return {
                 "url": url,
                 "title": title,
