@@ -546,6 +546,10 @@ video {
   margin-left: 0.5rem;
   margin-right: 0.5rem;
 }
+.my-1 {
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
+}
 .ml-1 {
   margin-left: 0.25rem;
 }
@@ -866,6 +870,15 @@ video {
 .infobox__link__parent a {
     color: var(--info-box-cl2);
     text-decoration: underline;
+}
+
+.wonolySearchResultIcon /* bing search icon */ {
+    padding: 4px;
+    border: 1px solid var(--rs-border);
+    font-size: 10px;
+
+    margin: 2px 2px 2px 0;
+    border-radius: 2px;
 }
 
 .hover\:border-black:hover {

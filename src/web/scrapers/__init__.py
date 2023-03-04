@@ -25,7 +25,7 @@
 from typing import Dict, Any
 
 from .template import Scraper
-from .google import Google
+from .bing import Bing
 
 def get_scrapers():
-    return [Google]
+    return [Bing]

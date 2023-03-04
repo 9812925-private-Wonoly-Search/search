@@ -22,4 +22,4 @@
 # THE SOFTWARE.
 #
 
-from . import google
+from . import bing

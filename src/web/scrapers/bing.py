@@ -24,7 +24,7 @@
 #
 
 from .template import Scraper
-from .utils.google import GOOGLE_URL, GOOGLE_VED, GOOGLE_USERAGENT, Classes
+from .utils.bing import BING_URL, BING_USERAGENT, Classes
 
 from bs4 import BeautifulSoup
 
@@ -32,10 +32,9 @@ from typing import Dict, Any
 import requests
 import urllib
 
-class Google(Scraper):
+class Bing(Scraper):
 
     ei: str = ""
-    ved: str = ""
 
     html_result: str = ""
 
@@ -49,25 +48,16 @@ class Google(Scraper):
         self.headers["Keep-Alive"]       = "115"
         self.headers["Connection"]       = "keep-alive"
         self.headers["Accept-Encoding"]  = "gzip,deflate"
-        self.headers["User-Agent"]       = GOOGLE_USERAGENT
+        self.headers["User-Agent"]       = BING_USERAGENT
         self.headers["Accept-Language"]  = "en-us,en;q=0.5"
         self.headers["Accept-Charset"]   = "ISO-8859-1,utf-8;q=0.7,*;q=0.7"
         self.headers["Accept"]           = "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
 
-        data = self.get_page_data(GOOGLE_URL);          #    Open google.com ( Might redirect to country specific site e.g. www.google.co.in)
-        data = self.get_page_data(f'{GOOGLE_URL}/ncr'); #    Moves back to google.com
-
-        matches = GOOGLE_VED.search(data)
-
-        if matches is not None:
-            self.ved = matches[1]
-
         data = self.get_page_data(self.prepare_search_url())
-
-        self.html_result = Classes.clean_google_page(data)
+        self.html_result = Classes.clean_bing_page(data)
 
     def prepare_search_url(self):
-        return f"{GOOGLE_URL}/search?source=hp&q={urllib.parse.quote_plus(self.options.get('query'))}&ei={self.ei}&aomd=1&btnK=Google+Search&ved={self.ved}&start={str(self.options.get('start', 0))}"
+        return f"{BING_URL}/search?source=hp&q={urllib.parse.quote_plus(self.options.get('query'))}&ei={self.ei}&aomd=1&btnK=Google+Search&start={str(self.options.get('start', 0))}"
 
     def get_page_data(self, url: str) -> str:
         return requests.get(url, verify=False, timeout=10, headers=self.headers).text
@@ -82,60 +72,7 @@ class Google(Scraper):
         )
 
     def _get_kno(self, soup: BeautifulSoup) -> str or None:
-        url = '#'
-        type = 'N/A'
-        title = 'N/A'
-        metadata = []
-        url_title = 'N/A'
-        description = 'N/A'
-
-        for title_cls in Classes.kno_panel["title"]:
-            if title == "N/A":
-                for tlt in soup.select(title_cls):
-                    title = tlt.getText()
-
-        for desc in soup.select(Classes.kno_panel["description"]):
-            links = desc.select("a")
-            if len(links) > 0: break
-
-            description += desc.getText()
-
-        ty = soup.select(Classes.kno_panel["type"])
-        if len(ty) > 0: type = ty[0].getText()
-
-        _url = soup.select(Classes.kno_panel["url"])
-        if len(_url) > 0:
-            print(_url[0].parent)
-            url = _url[0].parent.get("href")
-            url_title = _url[0].getText()
-
-        mtd = soup.select(Classes.kno_panel["metadata"])
-        for data in mtd:
-            print(data.children)
-            key = next(data.children)
-            value = next(x for i, x in enumerate(data.children) if i > 0)
-
-            metadata.append({
-                "key": key.getText(),
-                "value": str(value)
-            })
-
-        if (url != "#" or title != "N/A" or description != "N/A" or len(metadata) > 0):
-            print(url)
-            print(title)
-            print(description)
-            print(metadata)
-            return {
-                "url": url,
-                "title": title,
-                "description": description,
-                "url_title": url_title,
-                "metadata": metadata,
-                "type": type
-            }
-
         return None
-
 
     def _get_lyrics(self, soup: BeautifulSoup) -> str:
         lyrics = ""
@@ -162,21 +99,11 @@ class Google(Scraper):
         for title in _titles:
             if title.style != "-webkit-line-clamp:2":
                 titles.append(title.getText())
+                urls.append(title.get("href"))
 
-                url = title.parent
-                urls.append(url.get("href"))
-
-                _descriptions = title.parent
-                for i in range(3):
-                    _descriptions = _descriptions.parent
-
-                _descriptions = _descriptions.select(Classes.description)
-
-                description_content = ""
-                for description in _descriptions:
-                    description_content += str(description)
-
-                descriptions.append(description_content)
+        _descriptions = soup.select(Classes.description)
+        for description in _descriptions:
+            descriptions.append(str(description))
 
         urls_len = len(urls)
         titles_len = len(titles)

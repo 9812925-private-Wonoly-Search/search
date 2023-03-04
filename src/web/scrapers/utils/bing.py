@@ -24,16 +24,15 @@
 
 import re
 
-GOOGLE_URL = "http://www.google.com"
-GOOGLE_VED = re.compile('/type="submit" data-ved="(.*?)"/')
-GOOGLE_USERAGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36"
+BING_URL = "http://www.bing.com"
+BING_USERAGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36"
 
 class Classes:
     """A class for tracking obfuscated class names used in Google results that
     are directly referenced in Whoogle's filtering code."""
 
-    title = "div.v7W49e div a h3"
-    description = "div.lyLwlc"
+    title = "#b_results > li.b_algo > h2 > a"
+    description = "#b_results > li.b_algo > div.b_caption > p.b_algoSlug"
 
     lyrics = 'div.ujudUb'
     did_you_mean = "a.gL9Hy"
@@ -42,29 +41,11 @@ class Classes:
         url = 'div[class="kno-rdesc"] span a',
         type = 'div.SPZz6b div span',
         metadata = 'div.rVusze',
-        title = ['div.BkwXh div', 'div.SPZz6b h2 span'],
-        description = 'div[class="kno-rdesc"] span',
+        title = ['TODO'],
+        description = 'TODO',
     )
 
     @staticmethod
-    def clean_google_page(html: str) -> str:
-        return (html
-            # Removes classes we don't need:
-            .replace("N6jJud MUxGbd lyLwlc", "")
-            .replace("YjtGef ExmHv MUxGbd", "")
-            .replace("MUxGbd lyLwlc aLF0Z", "")
-
-            # Transforms all possible variations of some classes' name into a
-            # fixed string so it's easier to get consistent results:
-            # Descriptions: -> MUxGbd yDYNvb
-            .replace("yDYNvb lEBKkf", "yDYNvb")
-            .replace("VwiC3b MUxGbd yDYNvb", "MUxGbd yDYNvb")
-
-            # Urls: -> C8nzq BmP5tf
-            .replace("cz3goc BmP5tf", "C8nzq BmP5tf")
-
-            # Titles: -> yUTMj MBeuO ynAwRc gsrt PpBGzd YcUVQe
-            .replace("yUTMj MBeuO ynAwRc PpBGzd YcUVQe", 'yUTMj MBeuO ynAwRc gsrt PpBGzd YcUVQe')
-            .replace("oewGkc LeUQr", 'PpBGzd YcUVQe')
-            .replace("q8U8x MBeuO", 'yUTMj MBeuO')
-            .replace("ynAwRc PpBGzd", 'ynAwRc gsrt PpBGzd'))
+    def clean_bing_page(page: str) -> str:
+        return (page
+            .replace("<span class=\"algoSlug_icon\"", "<span class=\"wonolySearchResultIcon\""))

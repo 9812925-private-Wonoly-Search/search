@@ -186,9 +186,9 @@
                         {% endif %}
 
                         {% if results.kno.metadata|length %}
-                            <div class="mt-2 text-info_box_cl2">
+                            <div class="mt-2 text-info_box_cl2 mt-2">
                                 {% for metadata in results.kno.metadata %}
-                                    <p class="infobox__link__parent">
+                                    <p class="infobox__link__parent my-1">
                                         <span class="font-semibold text-info_box_cl">{{ metadata.key }}</span>
                                             {{ metadata.value|safe }}
                                     </p>
@@ -206,6 +206,10 @@
                 {% endif %}
             </div>
         </div>
+
+        <span>
+            <!-- for post CSS not removing these styles --> <span class="wonolySearchResultIcon" style="display:none;"></span>
+        </span>
 
         <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
         <script>
